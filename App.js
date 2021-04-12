@@ -10,6 +10,7 @@ import { Grid, Col, Row } from "react-native-easy-grid";
 import { Magnetometer } from 'expo-sensors';
 import { apisAreAvailable } from 'expo';
 import { Component } from 'react';
+import UserMap from './components/UserMap';
 
 
 const Stack = createStackNavigator();
@@ -97,7 +98,7 @@ const MapScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/*google map api, having trouble making map fit between markers. 
       Keeps track of user location*/}
-      <MapView style={styles.map} ref={ref => {
+      {/* <MapView style={styles.map} ref={ref => {
         this.map = ref;
       }} showsUserLocation={true} initialRegion={{
         latitude: (44.937950134),
@@ -106,10 +107,10 @@ const MapScreen = ({ navigation }) => {
         longitudeDelta: (93.168869019)
       }}
         initialRegion={this.state.region}
-      >
+      > */}
 
         {/*marker with goal location*/}
-        <MapView.Marker
+        {/* <MapView.Marker
           coordinate={{
             latitude: 44.937950134,
             longitude: -93.168869019
@@ -125,9 +126,10 @@ const MapScreen = ({ navigation }) => {
           }}
           title={'Place Me (no purpose testing)'} identifier={'mk2'}
           onDragEnd={(e) => { console.log('dragEnd', e.nativeEvent.coordinate) }}
-        />
-      </MapView>
+        /> */}
 
+      {/* </MapView> */}
+      <UserMap />
       <Button
         title="Switch to Home Screen"
         onPress={() =>
@@ -147,11 +149,11 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View>
       <Button
-        title="Switch to Compass Screen"
+        title="Compass Screen"
         onPress={() =>
           navigation.navigate('compass')} />
       <Button
-        title="Switch to Map Screen"
+        title="Map Screen"
         onPress={() =>
           navigation.navigate('map')} />
     </View>
