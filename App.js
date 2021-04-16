@@ -11,7 +11,10 @@ import { Magnetometer } from 'expo-sensors';
 import { apisAreAvailable } from 'expo';
 import { Component } from 'react';
 import UserMap from './components/UserMap';
+import UserMap2 from './components/UserMap2';
 import GoalCoords from './components/GoalCoords';
+// import TextInputGoal from './components/TextInputGoal';
+import { render } from 'react-dom';
 
 
 
@@ -23,19 +26,19 @@ function App() {
   )
 }
 
-findCoordinates = () => {
+// findCoordinates = () => {
 
-  navigator.geolocation.getCurrentPosition(
-    position => {
-      const location = JSON.stringify(position.coords.latitude.toPrecision(6) + ", " + position.coords.longitude.toPrecision(6));
+//   navigator.geolocation.getCurrentPosition(
+//     position => {
+//       const location = JSON.stringify(position.coords.latitude.toPrecision(6) + ", " + position.coords.longitude.toPrecision(6));
 
-      this.setState({ location });
-    },
-    error => Alert.alert(error.message),
-    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-  );
-console.log("hello");
-};
+//       this.setState({ location });
+//     },
+//     error => Alert.alert(error.message),
+//     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+//   );
+// console.log("hello");
+// };
 
 // const componentDidMount = () => {
 //   navigator.geolocation.getCurrentPosition(
@@ -71,6 +74,10 @@ const NavigateStack = () => {
           name='compass'
           component={CompassScreen}
           options={{ title: 'Compass' }} />
+          <Stack.Screen
+          name='chooseGoal'
+          component={ChooseGoalScreen}
+          options={{ title: 'Choose Goal Map' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
@@ -86,7 +93,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
 const MapScreen = ({ navigation }) => {
-
   this.state = {
     region: {
       latitude: 44.9379,
@@ -98,20 +104,14 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-    
-      <UserMap />
-      <GoalCoords coordinate = "44.44, 99.66" />
-      <Button
-        title="Switch to Home Screen"
-        onPress={() =>
-          navigation.navigate('home')} />
+      <UserMap2 />     
       {/*TRYING TO SHOW USER Coordinates*/}
-      {/* <View style={[styles.bubble, styles.latlng]}>
+      <View style={[styles.bubble, styles.latlng]}>
         <TouchableOpacity onPress={this.findCoordinates}>
           <Text style={styles.centeredText}>Click to Find Your Coordinates</Text>
           <Text style={styles.centeredText, { fontWeight: 'bold' }}>{this.state.location}</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
 
   )
@@ -130,6 +130,27 @@ const HomeScreen = ({ navigation }) => {
     </View>
 
   )
+}
+const ChooseGoalScreen = ({ navigation }) => {
+  this.state = {
+    region: {
+      latitude: 44.9379,
+      longitude: -93.1691,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0922 * ASPECT_RATIO,
+    },
+  };
+
+
+  return (
+    <View>
+      {/* <TextInputGoal/> */}
+      <UserMap/>
+    </View>
+  )
+
+  
+
 }
 const CompassScreen = ({ navigation }) => {
 
