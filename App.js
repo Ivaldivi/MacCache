@@ -26,37 +26,6 @@ function App() {
   )
 }
 
-// findCoordinates = () => {
-
-//   navigator.geolocation.getCurrentPosition(
-//     position => {
-//       const location = JSON.stringify(position.coords.latitude.toPrecision(6) + ", " + position.coords.longitude.toPrecision(6));
-
-//       this.setState({ location });
-//     },
-//     error => Alert.alert(error.message),
-//     { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-//   );
-// console.log("hello");
-// };
-
-// const componentDidMount = () => {
-//   navigator.geolocation.getCurrentPosition(
-//     position => {
-//       const location = JSON.stringify(position.coords.latitude.toPrecision(6)+ ", " + position.coords.longitude.toPrecision(6));
-
-//             this.setState({ location });
-//     },
-//     error => {
-//       this.setState({
-//         error: 'Error'
-//       });
-//     }
-//   );
-//   console.log("hello");
-// };
-
-
 const NavigateStack = () => {
 
   return (
@@ -78,13 +47,20 @@ const NavigateStack = () => {
           name='chooseGoal'
           component={ChooseGoalScreen}
           options={{ title: 'Choose Goal Map' }} />
+          <Stack.Screen
+          name='WelcomeScreen'
+          component={WelcomeScreen}
+          options={{ title: 'Mac Cache' }} />
+          <Stack.Screen
+          name='AboutPage'
+          component={AboutPage}
+          options={{ title: 'About' }} />
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
 const { width, height } = Dimensions.get('window');
-
 const ASPECT_RATIO = width / height;
 const LATITUDE = 44.9379;
 const LONGITUDE = -93.1691;
@@ -104,7 +80,7 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <UserMap2 />     
+      <UserMap2/>     
       {/*TRYING TO SHOW USER Coordinates*/}
       <View style={[styles.bubble, styles.latlng]}>
         <TouchableOpacity onPress={this.findCoordinates}>
@@ -124,9 +100,21 @@ const HomeScreen = ({ navigation }) => {
         onPress={() =>
           navigation.navigate('compass')} />
       <Button
+        title="Welcome Screen"
+        onPress={() =>
+          navigation.navigate('WelcomeScreen')} />
+      <Button
         title="Map Screen"
         onPress={() =>
           navigation.navigate('map')} />
+    </View>
+
+  )
+}
+const AboutPage = ({ navigation }) => {
+  return (
+    <View>
+      <Text>Hello!</Text>
     </View>
 
   )
@@ -140,18 +128,43 @@ const ChooseGoalScreen = ({ navigation }) => {
       longitudeDelta: 0.0922 * ASPECT_RATIO,
     },
   };
-
-
   return (
     <View>
-      {/* <TextInputGoal/> */}
-      <UserMap/>
+      <UserMap2/>
     </View>
   )
-
-  
-
 }
+
+const WelcomeScreen = ({ navigation }) => {
+  return (
+
+    <View style = {styles.welcomePg}>
+      <View style={styles.imgz}>
+          <Image source={require('./components/macCache.png')}/>
+      </View>
+      <View style = {styles.WelcomeB}>
+          <Button 
+            style = {styles.WelcomeB}
+            title = "Start"
+            color = '#fff'
+            onPress={() =>
+              navigation.navigate('map')}/>
+        </View>
+        <View style = {styles.WelcomeB}>
+          <Button 
+            style = {styles.WelcomeB}
+            title="About"
+            color = '#fff'
+            onPress={() =>
+              navigation.navigate('AboutPage')} />
+        </View>
+          
+      
+      
+    </View>
+  )
+}
+
 const CompassScreen = ({ navigation }) => {
 
   const [subscription, setSubscription] = useState(null);
@@ -159,7 +172,6 @@ const CompassScreen = ({ navigation }) => {
   this.state = {
     location: null
   };
-
 
   useEffect(() => {
     _toggle();
@@ -319,8 +331,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20,
+    alignContent: 'center'
   },
   centeredText: { textAlign: 'center' },
+  tinyLogo: {
+    width: 50,
+    height: 50,
+  },
+  imgz: {
+    width: 375,
+    height: 375,
+    alignContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#214683', 
+    marginBottom: -10
+  },
+  welcomePg: {
+    alignItems: 'center',
+    backgroundColor: `#214683`,
+    height: Dimensions.get('window').height,
+    flex: 1,
+    justifyContent: 'flex-start',
+    
+  },
+  WelcomeB: {
+      backgroundColor: 'rgba(223, 108, 22, .9)',
+      paddingHorizontal: 18,
+      paddingVertical: 10,
+      borderRadius: 20,
+      alignContent: 'center', 
+      color: 'white',
+      marginBottom: 45,
+      display: 'flex'
+    }
 });
 
 export default App;
