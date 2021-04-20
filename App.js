@@ -1,7 +1,7 @@
 
 //import * as React from 'react';
 import React, { useState, useEffect } from 'react';
-import { Text, Button, View, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { Text, Button,ScrollView, View, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -44,10 +44,6 @@ const NavigateStack = () => {
           component={CompassScreen}
           options={{ title: 'Compass' }} />
           <Stack.Screen
-          name='chooseGoal'
-          component={ChooseGoalScreen}
-          options={{ title: 'Choose Goal Map' }} />
-          <Stack.Screen
           name='WelcomeScreen'
           component={WelcomeScreen}
           options={{ title: 'Mac Cache' }} />
@@ -80,10 +76,24 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <UserMap2/>     
-      {/*TRYING TO SHOW USER Coordinates*/}
-      <View style={[styles.bubble, styles.latlng]}>
-        <TouchableOpacity onPress={this.findCoordinates}>
+      
+      <UserMap2 />     
+      <View style={{alignContent: 'center', flexDirection:"row" }}>
+        <TouchableOpacity activeOpacity={0.5} onPress={() =>
+          navigation.navigate('WelcomeScreen')}>
+          <Image
+            source={require('./components/Back_Arrow.png')}
+            style={styles.ImageIconStyle}
+            backgroundColor= 'rgba(223, 108, 22, .9)'
+            borderRadius = {5}
+            height= {25}
+            width = {25}
+            justifyContent= 'left'
+            marginTop = {15}
+            marginRight = {10}
+          />
+          </TouchableOpacity>
+        <TouchableOpacity style = {styles.WelcomeB} onPress={this.findCoordinates}>
           <Text style={styles.centeredText}>Click to Find Your Coordinates</Text>
           <Text style={styles.centeredText, { fontWeight: 'bold' }}>{this.state.location}</Text>
         </TouchableOpacity>
@@ -111,36 +121,48 @@ const HomeScreen = ({ navigation }) => {
 
   )
 }
+
+const B = (props) => <Text style={{fontWeight: 'bold', fontSize: 20}}>{props.children}</Text>
+//https://stackoverflow.com/questions/35718143/react-native-add-bold-or-italics-to-single-words-in-text-field#:~:text=You%20can%20use%20like,...
+
 const AboutPage = ({ navigation }) => {
   return (
-    <View>
-      <Text>Hello!</Text>
-    </View>
+    <ScrollView style = {{backgroundColor: 'rgba(223, 108, 22, 1)', height: Dimensions.get('window').height}}>
+      <Text style = {{ fontSize: 25, fontWeight: 'bold', marginLeft: 4, marginBottom: 5, borderColor: 'white',borderWidth: 2, borderRadius: 8,
+        color:'#183592',marginRight: 285}}>
+          Rules:  </Text>
+      <Text style = {styles.AboutPageP}>
+        <B>1.</B> Be nice in the message log! No mean-spirited, hateful, or discriminatory messages. 
+        {'\n'}{'\n'}<B>2.</B> Be careful when using the map! Make sure to look up from your phone and stay aware of your surroundings
+         </Text>
+      <Text style = {styles.AboutPageP}>
+        {'\n'}<B>3.</B> Obey traffic safety laws when using the compass.
+        Our compass feature points you directly to the goal. The compass does not take into account roads, private property, or other hazards.{'\n'}
+        </Text>
+      <Text style = {{ fontSize: 25, fontWeight: 'bold', marginLeft: 4, marginBottom: 5, borderColor: 'white',borderWidth: 2, borderRadius: 8, color:'#183592',marginRight: 195}}>
+        Who Are We?
+        </Text>
+      <Text style = {styles.AboutPageP}>
+        #izadjaju-- This app was created as a software development project for the Macalester College class COMP225 Software Development.
+        The four main authors of the project are: Julia Kispert, A'di Dust, James Bellitto, and Izzy Valdivia with lots of help from our instructor! {'\n'} 
+        </Text>
+      <Text style = {{ fontSize: 25, fontWeight: 'bold', marginLeft: 4, marginBottom: 5, borderColor: 'white',borderWidth: 2, borderRadius: 8, color:'#183592',marginRight: 105}}>
+        Acknowledgements:
+        </Text>
+      <Text style = {styles.AboutPageP}>
+        - React Native documentation (woohoo, we love you, thank you) {'\n'}- Our instructor: Paul Cantrell 
+        {'\n'}- Some of our other commonly used resources below : P  
+        </Text>
+    </ScrollView>
 
-  )
-}
-const ChooseGoalScreen = ({ navigation }) => {
-  this.state = {
-    region: {
-      latitude: 44.9379,
-      longitude: -93.1691,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0922 * ASPECT_RATIO,
-    },
-  };
-  return (
-    <View>
-      <UserMap2/>
-    </View>
   )
 }
 
 const WelcomeScreen = ({ navigation }) => {
   return (
-
     <View style = {styles.welcomePg}>
       <View style={styles.imgz}>
-          <Image source={require('./components/macCache.png')}/>
+          <Image source={require('./components/MacCach.png')}/>
       </View>
       <View style = {styles.WelcomeB}>
           <Button 
@@ -153,14 +175,12 @@ const WelcomeScreen = ({ navigation }) => {
         <View style = {styles.WelcomeB}>
           <Button 
             style = {styles.WelcomeB}
-            title="About"
+            title = 'About'
+            Image = './components/Back_Arrow.png'
             color = '#fff'
             onPress={() =>
               navigation.navigate('AboutPage')} />
-        </View>
-          
-      
-      
+        </View>      
     </View>
   )
 }
@@ -343,12 +363,12 @@ const styles = StyleSheet.create({
     height: 375,
     alignContent: 'center', 
     alignItems: 'center',
-    backgroundColor: '#214683', 
+    backgroundColor: '#183562', 
     marginBottom: -10
   },
   welcomePg: {
     alignItems: 'center',
-    backgroundColor: `#214683`,
+    backgroundColor: `#183562`,
     height: Dimensions.get('window').height,
     flex: 1,
     justifyContent: 'flex-start',
@@ -360,9 +380,18 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       borderRadius: 20,
       alignContent: 'center', 
-      color: 'white',
       marginBottom: 45,
       display: 'flex'
+    },
+  AboutPageP: {
+      fontSize: 15, 
+      fontWeight: 'normal', 
+      backgroundColor: 'rgba(223, 108, 22, 1)', 
+      textAlign: 'justify', 
+      marginRight: 5,
+      marginLeft: 5, 
+      lineHeight: 25, 
+      color: 'white'
     }
 });
 
